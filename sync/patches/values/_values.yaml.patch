@@ -1,0 +1,15 @@
+diff --git a/helm/kamaji-etcd/values.yaml b/helm/kamaji-etcd/values.yaml
+index 1234567..abcdefg 100644
+--- a/helm/kamaji-etcd/values.yaml
++++ b/helm/kamaji-etcd/values.yaml
+@@ -14,8 +14,8 @@ serviceAccount:
+   name: ""
+ 
+ image:
+-  # -- Install image from specific repo 
+-  repository: quay.io/coreos/etcd
++  # -- Install image from specific repo (default: Giant Swarm registry)
++  repository: gsoci.azurecr.io/giantswarm/etcd
+   # -- Install image with specific tag, overwrite the tag in the chart
+   tag: ""
+   # -- Pull policy to use

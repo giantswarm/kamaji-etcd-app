@@ -1,0 +1,12 @@
+diff --git a/helm/kamaji-etcd/templates/_helpers.tpl b/helm/kamaji-etcd/templates/_helpers.tpl
+index 1234567..abcdefg 100644
+--- a/helm/kamaji-etcd/templates/_helpers.tpl
++++ b/helm/kamaji-etcd/templates/_helpers.tpl
+@@ -55,6 +55,7 @@ helm.sh/chart: {{ include "etcd.chart" . }}
+ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+ {{- end }}
+ app.kubernetes.io/managed-by: {{ .Release.Service }}
++application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
+ {{- end }}
+ 
+ {{/*

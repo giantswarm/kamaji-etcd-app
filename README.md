@@ -1,18 +1,26 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/giantswarm/{APP-NAME}/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/giantswarm/{APP-NAME}/tree/main)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/giantswarm/{APP-NAME}/badge)](https://securityscorecards.dev/viewer/?uri=github.com/giantswarm/{APP-NAME})
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/giantswarm/kamaji-etcd-app/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/giantswarm/kamaji-etcd-app/tree/main)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/giantswarm/kamaji-etcd-app/badge)](https://securityscorecards.dev/viewer/?uri=github.com/giantswarm/kamaji-etcd-app)
 
 [Guide about how to manage an app on Giant Swarm](https://handbook.giantswarm.io/docs/dev-and-releng/app-developer-processes/adding_app_to_appcatalog/)
 
-# {APP-NAME} chart
+# kamaji-etcd chart
 
-Giant Swarm offers a {APP-NAME} App which can be installed in workload clusters.
-Here, we define the {APP-NAME} chart with its templates and default configuration.
+Giant Swarm offers a kamaji-etcd App which can be installed in workload clusters.
+Here, we define the kamaji-etcd chart with its templates and default configuration.
+
+This chart is synced from the upstream [clastix/kamaji-etcd](https://github.com/clastix/kamaji-etcd) repository using vendir.
 
 **What is this app?**
 
+kamaji-etcd provides a multi-tenant etcd cluster for use with Kamaji, the Kubernetes control plane manager.
+
 **Why did we add it?**
 
+To support Kamaji deployments that require a dedicated etcd datastore.
+
 **Who can use it?**
+
+Anyone deploying Kamaji control planes that need etcd as a datastore.
 
 ## Installing
 
@@ -50,6 +58,19 @@ Here is an example that would install the app to workload cluster `abc12`:
 
 See our [full reference on how to configure apps](https://docs.giantswarm.io/tutorials/fleet-management/app-platform/app-configuration/) for more details.
 
+## Updating the Chart
+
+This chart is synced from the upstream [clastix/kamaji-etcd](https://github.com/clastix/kamaji-etcd) repository using [vendir](https://carvel.dev/vendir/).
+
+To update to the latest version:
+
+1. Check the latest release at https://github.com/clastix/kamaji-etcd/releases
+2. Update the `ref` field in [vendir.yml](vendir.yml) to the new version tag (e.g., `v0.14.0`)
+3. Run `vendir sync` to fetch the new version
+4. Review the changes and update the CHANGELOG.md
+
+The vendir configuration will pull the chart from `charts/kamaji-etcd/` in the upstream repository.
+
 ## Compatibility
 
 This app has been tested to work with the following workload cluster release versions:
@@ -65,4 +86,4 @@ Not following these limitations will most likely result in a broken deployment.
 
 ## Credit
 
-- {APP HELM REPOSITORY}
+This chart is sourced from the upstream [clastix/kamaji-etcd](https://github.com/clastix/kamaji-etcd) Helm chart repository and maintained by the Clastix team.
