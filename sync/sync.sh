@@ -22,7 +22,7 @@ helm dependency update helm/kamaji-etcd/
 echo "Generating values schema..."
 { set +x; } 2>/dev/null
 if ! helm plugin list | grep -q values-schema-json; then
-  helm plugin install https://github.com/losisin/helm-values-schema-json.git --verify=false
+  helm plugin install https://github.com/losisin/helm-values-schema-json.git --verify=false || true
 fi
 cd helm/kamaji-etcd && helm schema
 cd "${dir}/.."
