@@ -1,8 +1,8 @@
 diff --git a/helm/kamaji-etcd/values.yaml b/helm/kamaji-etcd/values.yaml
-index 1234567..abcdefg 100644
+index 4be39f2..1761b40 100644
 --- a/helm/kamaji-etcd/values.yaml
 +++ b/helm/kamaji-etcd/values.yaml
-@@ -14,8 +14,8 @@ serviceAccount:
+@@ -13,8 +13,8 @@ serviceAccount:
    name: ""
  
  image:
@@ -13,7 +13,7 @@ index 1234567..abcdefg 100644
    # -- Install image with specific tag, overwrite the tag in the chart
    tag: ""
    # -- Pull policy to use
-@@ -49,8 +49,8 @@ securityContext: {}
+@@ -49,8 +49,8 @@ clusterDomain: "cluster.local"
  
  # -- A list of extra arguments to add to the etcd default ones
  extraArgs: []
@@ -39,17 +39,25 @@ index 1234567..abcdefg 100644
    size: 8Gi
    # -- A specific storage class
    storageClassName: ""
-@@ -116,8 +116,8 @@ podAnnotations: {}
+@@ -116,12 +116,12 @@ affinity: {}
  
  # -- Kubernetes topology spread constraints to apply to etcd pods
  topologySpreadConstraints: []
 -#- maxSkew: 1
 -#  topologyKey: topology.kubernetes.io/zone
+-#  whenUnsatisfiable: DoNotSchedule
+-#  labelSelector:
+-#    matchLabels:
+-#      application: kamaji-etcd
 +# - maxSkew: 1
 +#   topologyKey: topology.kubernetes.io/zone
- #  whenUnsatisfiable: DoNotSchedule
- #  labelSelector:
- #    matchLabels:
++#   whenUnsatisfiable: DoNotSchedule
++#   labelSelector:
++#     matchLabels:
++#       application: kamaji-etcd
+ 
+ datastore:
+   # -- Create a datastore custom resource for Kamaji
 @@ -129,7 +129,7 @@ datastore:
    # -- Name of Kamaji datastore, set to fully qualified etcd name when null or not provided
    name: ""
@@ -59,18 +67,7 @@ index 1234567..abcdefg 100644
    # -- Assign additional Annotations to the datastore
    annotations: {}
    #  helm.sh/resource-policy: keep
-@@ -163,8 +163,8 @@ serviceMonitor:
-       scrapeTimeout: 30s
-     # -- Set relabelings for the endpoint of the serviceMonitor
-     relabelings: []
--    #- action: replace
--    #  regex: (.+)
-+    # - action: replace
-+    #   regex: (.+)
-     #  replacement: $1
-     #  sourceLabels:
-     #  - __meta_kubernetes_pod_name
-@@ -209,15 +209,15 @@ jobs:
+@@ -209,14 +209,14 @@ jobs:
    affinity: {}
    # -- addional images to use for ancillary jobs
    cfssl:
@@ -89,7 +86,7 @@ index 1234567..abcdefg 100644
      pullPolicy: IfNotPresent
  
  selfSignedCertificates:
-@@ -234,10 +234,10 @@ certManager:
+@@ -235,7 +235,7 @@ certManager:
      create: true
      nameOverride: ""
      # -- CertManager etcd CA validity
@@ -98,6 +95,3 @@ index 1234567..abcdefg 100644
    serverCert:
      create: true
      nameOverride: ""
-     additionalDnsNames: []
-   peerCert:
-     create: true

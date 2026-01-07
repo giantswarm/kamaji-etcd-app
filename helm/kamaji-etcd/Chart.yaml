@@ -47,3 +47,6 @@ annotations:
   artifacthub.io/changes: |
     - kind: feat
       description: custom certmanager object names and customisations
+  application.giantswarm.io/team: rocket
+  application.giantswarm.io/readme: https://github.com/giantswarm/kamaji-etcd-app
+  application.giantswarm.io/upstream: https://github.com/clastix/kamaji-etcd
