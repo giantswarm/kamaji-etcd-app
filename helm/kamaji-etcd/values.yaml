@@ -14,7 +14,7 @@ serviceAccount:
 
 image:
   # -- Install image from specific repo (default: Giant Swarm registry)
-  repository: gsoci.azurecr.io/giantswarm
+  repository: gsoci.azurecr.io/giantswarm/etcd
   # -- Install image with specific tag, overwrite the tag in the chart
   tag: ""
   # -- Pull policy to use
