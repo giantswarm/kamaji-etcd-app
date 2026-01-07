@@ -1,5 +1,5 @@
 diff --git a/helm/kamaji-etcd/values.yaml b/helm/kamaji-etcd/values.yaml
-index 4be39f2..1761b40 100644
+index 4be39f2..cc4a4fb 100644
 --- a/helm/kamaji-etcd/values.yaml
 +++ b/helm/kamaji-etcd/values.yaml
 @@ -13,8 +13,8 @@ serviceAccount:
@@ -67,6 +67,15 @@ index 4be39f2..1761b40 100644
    # -- Assign additional Annotations to the datastore
    annotations: {}
    #  helm.sh/resource-policy: keep
+@@ -163,7 +163,7 @@ serviceMonitor:
+     metricRelabelings: []
+     # -- Set relabelings for the endpoint of the serviceMonitor
+     relabelings: []
+-    #- action: replace
++    # - action: replace
+     #  regex: (.+)
+     #  replacement: $1
+     #  sourceLabels:
 @@ -209,14 +209,14 @@ jobs:
    affinity: {}
    # -- addional images to use for ancillary jobs
