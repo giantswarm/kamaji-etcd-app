@@ -14,7 +14,7 @@ serviceAccount:
 
 image:
   # -- Install image from specific repo (default: Giant Swarm registry)
-  repository: gsoci.azurecr.io/giantswarm/etcd
+  repository: gsoci.azurecr.io/giantswarm
   # -- Install image with specific tag, overwrite the tag in the chart
   tag: ""
   # -- Pull policy to use
@@ -209,13 +209,13 @@ jobs:
   affinity: {}
   # -- addional images to use for ancillary jobs
   cfssl:
-    image: cfssl/cfssl
+    image: gsoci.azurecr.io/giantswarm/cfssl
     tag: ""
   kubectl:
-    image: clastix/kubectl
+    image: gsoci.azurecr.io/giantswarm/kubectl
     tag: ""
   etcd:
-    image: quay.io/coreos/etcd
+    image: gsoci.azurecr.io/giantswarm/etcd
     tag: v3.5.6 # latest container image with shell available!
     pullPolicy: IfNotPresent
 

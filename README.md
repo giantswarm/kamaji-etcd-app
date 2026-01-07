@@ -5,7 +5,7 @@
 
 # kamaji-etcd chart
 
-Giant Swarm offers a kamaji-etcd App which can be installed in workload clusters.
+Giant Swarm offers a kamaji-etcd App which can be installed in clusters.
 Here, we define the kamaji-etcd chart with its templates and default configuration.
 
 This chart is synced from the upstream [clastix/kamaji-etcd](https://github.com/clastix/kamaji-etcd) repository using vendir.
@@ -61,13 +61,9 @@ See our [full reference on how to configure apps](https://docs.giantswarm.io/tut
 ## Updating the Chart
 
 This chart is synced from the upstream [clastix/kamaji-etcd](https://github.com/clastix/kamaji-etcd) repository using [vendir](https://carvel.dev/vendir/).
+Then, custom Giant Swarm patches are applied to adapt the chart to our requirements.
 
-To update to the latest version:
-
-1. Check the latest release at https://github.com/clastix/kamaji-etcd/releases
-2. Update the `ref` field in [vendir.yml](vendir.yml) to the new version tag (e.g., `v0.14.0`)
-3. Run `vendir sync` to fetch the new version
-4. Review the changes and update the CHANGELOG.md
+To update to the latest version, see [sync/README.md](sync/README.md).
 
 The vendir configuration will pull the chart from `charts/kamaji-etcd/` in the upstream repository.
 
