@@ -191,6 +191,30 @@
                         }
                     }
                 },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
                 "tolerations": {
                     "type": "array"
                 }
@@ -288,10 +312,23 @@
             "type": "object",
             "properties": {
                 "limits": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "requests": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {
+                        "cpu": {
+                            "type": "string"
+                        },
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
@@ -300,6 +337,12 @@
             "properties": {
                 "allowPrivilegeEscalation": {
                     "type": "boolean"
+                },
+                "runAsNonRoot": {
+                    "type": "boolean"
+                },
+                "runAsUser": {
+                    "type": "integer"
                 }
             }
         },

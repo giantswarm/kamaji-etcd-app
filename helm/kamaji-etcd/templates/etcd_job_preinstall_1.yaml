@@ -8,9 +8,12 @@ metadata:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "10"
     "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation,hook-failed"
+    ignore-check.kube-linter.io/no-read-only-root-fs: "Certificate generation requires write access"
+    ignore-check.kube-linter.io/non-existent-service-account: "ServiceAccount is created by this chart"
   name: "{{ .Release.Name }}-etcd-setup-1"
   namespace: {{ .Release.Namespace }}
 spec:
+  ttlSecondsAfterFinished: 300
   template:
     metadata:
       name: "{{ .Release.Name }}"
@@ -19,7 +22,7 @@ spec:
       restartPolicy: Never
       initContainers:
         - name: cfssl
-          image: "{{ printf "%s:%s" .Values.jobs.cfssl.image (default "latest" .Values.jobs.cfssl.tag) }}"
+          image: "{{ printf "%s:%s" .Values.jobs.cfssl.image (default "v1.6.5" .Values.jobs.cfssl.tag) }}"
           command:
             - bash
             - -c
@@ -29,6 +32,11 @@ spec:
               cfssl gencert -ca=/certs/ca.crt -ca-key=/certs/ca.key -config=/csr/config.json -profile=peer-authentication /csr/peer-csr.json | cfssljson -bare /certs/peer &&
               cfssl gencert -ca=/certs/ca.crt -ca-key=/certs/ca.key -config=/csr/config.json -profile=peer-authentication /csr/server-csr.json | cfssljson -bare /certs/server &&
               cfssl gencert -ca=/certs/ca.crt -ca-key=/certs/ca.key -config=/csr/config.json -profile=client-authentication /csr/root-client-csr.json | cfssljson -bare /certs/root-client
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+          resources:
+            {{- toYaml .Values.jobs.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /certs
               name: certs
@@ -38,6 +46,11 @@ spec:
         - name: kubectl
           image: "{{ printf "%s:%s" .Values.jobs.kubectl.image (default (include "etcd.jobsTagKubeVersion" . | trim) .Values.jobs.kubectl.tag) }}"
           command: ["/bin/sh", "-c"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+          resources:
+            {{- toYaml .Values.jobs.resources | nindent 12 }}
           args:
             - |
               if kubectl get secret {{ include "etcd.caSecretName" . }} --namespace={{ .Release.Namespace }} &>/dev/null; then

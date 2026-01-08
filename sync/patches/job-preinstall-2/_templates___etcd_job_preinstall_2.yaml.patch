@@ -1,0 +1,41 @@
+diff --git a/helm/kamaji-etcd/templates/etcd_job_preinstall_2.yaml b/helm/kamaji-etcd/templates/etcd_job_preinstall_2.yaml
+index b77cf6b..530cf35 100644
+--- a/helm/kamaji-etcd/templates/etcd_job_preinstall_2.yaml
++++ b/helm/kamaji-etcd/templates/etcd_job_preinstall_2.yaml
+@@ -7,9 +7,12 @@ metadata:
+     "helm.sh/hook": post-install
+     "helm.sh/hook-weight": "10"
+     "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation,hook-failed"
++    ignore-check.kube-linter.io/no-read-only-root-fs: "etcd client requires write access for auth setup"
++    ignore-check.kube-linter.io/non-existent-service-account: "ServiceAccount is created by this chart"
+   name: "{{ .Release.Name }}-etcd-setup-2"
+   namespace: {{ .Release.Namespace }}
+ spec:
++  ttlSecondsAfterFinished: 300
+   backoffLimit: 12
+   template:
+     metadata:
+@@ -28,6 +31,11 @@ spec:
+           - sh
+           - -c
+           - kubectl --namespace={{ .Release.Namespace }} rollout status sts/{{ include "etcd.stsName" . }} --timeout=300s
++          securityContext:
++            runAsNonRoot: true
++            runAsUser: 1000
++          resources:
++            {{- toYaml .Values.jobs.resources | nindent 12 }}
+       containers:
+         - command:
+           - bash
+@@ -54,6 +62,11 @@ spec:
+           image: "{{ printf "%s:%s" .Values.jobs.etcd.image (default "latest" .Values.jobs.etcd.tag) }}"
+           imagePullPolicy: {{ .Values.jobs.etcd.pullPolicy }}
+           name: etcd-client
++          securityContext:
++            runAsNonRoot: true
++            runAsUser: 1000
++          resources:
++            {{- toYaml .Values.jobs.resources | nindent 12 }}
+           volumeMounts:
+             - name: root-certs
+               mountPath: /opt/certs/root-certs

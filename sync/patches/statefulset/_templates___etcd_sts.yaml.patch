@@ -1,0 +1,14 @@
+diff --git a/helm/kamaji-etcd/templates/etcd_sts.yaml b/helm/kamaji-etcd/templates/etcd_sts.yaml
+index 73c195f..b5f8dcd 100644
+--- a/helm/kamaji-etcd/templates/etcd_sts.yaml
++++ b/helm/kamaji-etcd/templates/etcd_sts.yaml
+@@ -3,6 +3,9 @@ kind: StatefulSet
+ metadata:
+   labels:
+     {{- include "etcd.labels" . | nindent 4 }}
++  annotations:
++    ignore-check.kube-linter.io/no-read-only-root-fs: "etcd requires write access to data directory"
++    ignore-check.kube-linter.io/no-anti-affinity: "Anti-affinity is optional and configured via values.yaml"
+   name: {{ include "etcd.stsName" . }}
+   namespace: {{ .Release.Namespace }}
+ spec:
