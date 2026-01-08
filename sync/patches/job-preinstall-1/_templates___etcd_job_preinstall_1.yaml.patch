@@ -1,5 +1,5 @@
 diff --git a/helm/kamaji-etcd/templates/etcd_job_preinstall_1.yaml b/helm/kamaji-etcd/templates/etcd_job_preinstall_1.yaml
-index c506a2e..f205c66 100644
+index c506a2e..5fcd8e3 100644
 --- a/helm/kamaji-etcd/templates/etcd_job_preinstall_1.yaml
 +++ b/helm/kamaji-etcd/templates/etcd_job_preinstall_1.yaml
 @@ -8,9 +8,12 @@ metadata:
@@ -24,25 +24,23 @@ index c506a2e..f205c66 100644
            command:
              - bash
              - -c
-@@ -29,6 +32,11 @@ spec:
+@@ -29,6 +32,10 @@ spec:
                cfssl gencert -ca=/certs/ca.crt -ca-key=/certs/ca.key -config=/csr/config.json -profile=peer-authentication /csr/peer-csr.json | cfssljson -bare /certs/peer &&
                cfssl gencert -ca=/certs/ca.crt -ca-key=/certs/ca.key -config=/csr/config.json -profile=peer-authentication /csr/server-csr.json | cfssljson -bare /certs/server &&
                cfssl gencert -ca=/certs/ca.crt -ca-key=/certs/ca.key -config=/csr/config.json -profile=client-authentication /csr/root-client-csr.json | cfssljson -bare /certs/root-client
 +          securityContext:
-+            runAsNonRoot: true
-+            runAsUser: 1000
++            {{- toYaml .Values.securityContext | nindent 12 }}
 +          resources:
 +            {{- toYaml .Values.jobs.resources | nindent 12 }}
            volumeMounts:
              - mountPath: /certs
                name: certs
-@@ -38,6 +46,11 @@ spec:
+@@ -38,6 +45,10 @@ spec:
          - name: kubectl
            image: "{{ printf "%s:%s" .Values.jobs.kubectl.image (default (include "etcd.jobsTagKubeVersion" . | trim) .Values.jobs.kubectl.tag) }}"
            command: ["/bin/sh", "-c"]
 +          securityContext:
-+            runAsNonRoot: true
-+            runAsUser: 1000
++            {{- toYaml .Values.securityContext | nindent 12 }}
 +          resources:
 +            {{- toYaml .Values.jobs.resources | nindent 12 }}
            args:

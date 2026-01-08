@@ -1,5 +1,5 @@
 diff --git a/helm/kamaji-etcd/templates/etcd_sts.yaml b/helm/kamaji-etcd/templates/etcd_sts.yaml
-index 73c195f..b5f8dcd 100644
+index 73c195f..9d80a50 100644
 --- a/helm/kamaji-etcd/templates/etcd_sts.yaml
 +++ b/helm/kamaji-etcd/templates/etcd_sts.yaml
 @@ -3,6 +3,9 @@ kind: StatefulSet
@@ -12,3 +12,12 @@ index 73c195f..b5f8dcd 100644
    name: {{ include "etcd.stsName" . }}
    namespace: {{ .Release.Namespace }}
  spec:
+@@ -59,7 +62,7 @@ spec:
+           image: {{ include "etcd.fullyQualifiedDockerImage" . }}
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           securityContext:
+-            {{- toYaml .Values.podSecurityContext | nindent 12 }}
++            {{- toYaml .Values.securityContext | nindent 12 }}
+           ports:
+             - containerPort: {{ .Values.clientPort }}
+               name: client
