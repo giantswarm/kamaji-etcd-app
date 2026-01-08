@@ -8,12 +8,9 @@ metadata:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-weight": "10"
     "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation,hook-failed"
-    ignore-check.kube-linter.io/no-read-only-root-fs: "Secret deletion requires write access"
-    ignore-check.kube-linter.io/non-existent-service-account: "ServiceAccount is created by this chart"
   name: "{{ .Release.Name }}-etcd-teardown"
   namespace: {{ .Release.Namespace }}
 spec:
-  ttlSecondsAfterFinished: 300
   template:
     metadata:
       name: "{{ .Release.Name }}"
@@ -24,11 +21,6 @@ spec:
       containers:
         - name: kubectl
           image: "{{ printf "%s:%s" .Values.jobs.kubectl.image (default (include "etcd.jobsTagKubeVersion" . | trim) .Values.jobs.kubectl.tag) }}"
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-          resources:
-            {{- toYaml .Values.jobs.resources | nindent 12 }}
           command:
             - kubectl
             - --namespace={{ .Release.Namespace }}
