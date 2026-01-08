@@ -1,5 +1,5 @@
 diff --git a/helm/kamaji-etcd/values.yaml b/helm/kamaji-etcd/values.yaml
-index 4be39f2..bbfab1e 100644
+index 4be39f2..68a9c10 100644
 --- a/helm/kamaji-etcd/values.yaml
 +++ b/helm/kamaji-etcd/values.yaml
 @@ -13,8 +13,8 @@ serviceAccount:
@@ -39,12 +39,26 @@ index 4be39f2..bbfab1e 100644
    size: 8Gi
    # -- A specific storage class
    storageClassName: ""
-@@ -86,14 +86,19 @@ podAnnotations: {}
+@@ -86,14 +86,33 @@ podAnnotations: {}
  # -- The securityContext to apply to etcd
  securityContext:
    allowPrivilegeEscalation: false
++  capabilities:
++    drop:
++      - ALL
 +  runAsNonRoot: true
 +  runAsUser: 1000
++  runAsGroup: 1000
++  seccompProfile:
++    type: RuntimeDefault
++
++podSecurityContext:
++  runAsNonRoot: true
++  runAsUser: 1000
++  runAsGroup: 1000
++  fsGroup: 1000
++  seccompProfile:
++    type: RuntimeDefault
  
  # -- The priorityClassName to apply to etcd
  priorityClassName: system-cluster-critical
@@ -61,7 +75,30 @@ index 4be39f2..bbfab1e 100644
  
  # -- Kubernetes node selector rules to schedule etcd
  nodeSelector:
-@@ -116,12 +121,12 @@ affinity: {}
+@@ -103,25 +122,25 @@ nodeSelector:
+ tolerations: []
+ 
+ # -- Kubernetes affinity rules to apply to etcd pods
+-affinity: {}
+-  # podAntiAffinity:
+-  #   requiredDuringSchedulingIgnoredDuringExecution:
+-  #   - labelSelector:
+-  #       matchExpressions:
+-  #       - key: app.kubernetes.io/instance
+-  #         operator: In
+-  #         values:
+-  #         -  kamaji-etcd
+-  #     topologyKey: "kubernetes.io/hostname"
++affinity:
++  podAntiAffinity:
++    requiredDuringSchedulingIgnoredDuringExecution:
++    - labelSelector:
++        matchExpressions:
++        - key: app.kubernetes.io/instance
++          operator: In
++          values:
++          -  kamaji-etcd
++      topologyKey: "kubernetes.io/hostname"
  
  # -- Kubernetes topology spread constraints to apply to etcd pods
  topologySpreadConstraints: []
@@ -80,7 +117,7 @@ index 4be39f2..bbfab1e 100644
  
  datastore:
    # -- Create a datastore custom resource for Kamaji
-@@ -129,7 +134,7 @@ datastore:
+@@ -129,7 +148,7 @@ datastore:
    # -- Name of Kamaji datastore, set to fully qualified etcd name when null or not provided
    name: ""
    # -- Expose the headless service endpoints in the datastore. Set to false to expose with regular service.
@@ -89,7 +126,7 @@ index 4be39f2..bbfab1e 100644
    # -- Assign additional Annotations to the datastore
    annotations: {}
    #  helm.sh/resource-policy: keep
-@@ -163,7 +168,7 @@ serviceMonitor:
+@@ -163,7 +182,7 @@ serviceMonitor:
      metricRelabelings: []
      # -- Set relabelings for the endpoint of the serviceMonitor
      relabelings: []
@@ -98,7 +135,7 @@ index 4be39f2..bbfab1e 100644
      #  regex: (.+)
      #  replacement: $1
      #  sourceLabels:
-@@ -207,16 +212,23 @@ jobs:
+@@ -207,16 +226,23 @@ jobs:
    tolerations: []
    # -- Kubernetes affinity rules to apply to ancillary jobs
    affinity: {}
@@ -117,8 +154,9 @@ index 4be39f2..bbfab1e 100644
 +    tag: "v1.6.5"
    kubectl:
 -    image: clastix/kubectl
+-    tag: ""
 +    image: gsoci.azurecr.io/giantswarm/kubectl
-     tag: ""
++    tag: "1.33"
    etcd:
 -    image: quay.io/coreos/etcd
 -    tag: v3.5.6 # latest container image with shell available!
@@ -127,7 +165,22 @@ index 4be39f2..bbfab1e 100644
      pullPolicy: IfNotPresent
  
  selfSignedCertificates:
-@@ -235,7 +247,7 @@ certManager:
+@@ -225,17 +251,17 @@ selfSignedCertificates:
+ 
+ certManager:
+   # -- Enable CertManager for etcd certificates
+-  enabled: false
++  enabled: true
+   # -- CertManager Issuer to use for the etcd certificates
+-  issuerRef: {}
+-  #  name: kamaji-etcd-issuer
+-  #  kind: ClusterIssuer
+-  #  group: cert-manager.io
++  issuerRef:
++    name: selfsigned-giantswarm
++    kind: ClusterIssuer
++    group: cert-manager.io
+   ca:
      create: true
      nameOverride: ""
      # -- CertManager etcd CA validity

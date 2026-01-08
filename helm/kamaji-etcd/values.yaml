@@ -86,8 +86,22 @@ podAnnotations: {}
 # -- The securityContext to apply to etcd
 securityContext:
   allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
   runAsNonRoot: true
   runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
 
 # -- The priorityClassName to apply to etcd
 priorityClassName: system-cluster-critical
@@ -108,16 +122,16 @@ nodeSelector:
 tolerations: []
 
 # -- Kubernetes affinity rules to apply to etcd pods
-affinity: {}
-  # podAntiAffinity:
-  #   requiredDuringSchedulingIgnoredDuringExecution:
-  #   - labelSelector:
-  #       matchExpressions:
-  #       - key: app.kubernetes.io/instance
-  #         operator: In
-  #         values:
-  #         -  kamaji-etcd
-  #     topologyKey: "kubernetes.io/hostname"
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/instance
+          operator: In
+          values:
+          - kamaji-etcd
+      topologyKey: "kubernetes.io/hostname"
 
 # -- Kubernetes topology spread constraints to apply to etcd pods
 topologySpreadConstraints: []
@@ -225,7 +239,7 @@ jobs:
     tag: "v1.6.5"
   kubectl:
     image: gsoci.azurecr.io/giantswarm/kubectl
-    tag: ""
+    tag: "1.33"
   etcd:
     image: gsoci.azurecr.io/giantswarm/etcd
     tag: v3.5.6  # latest container image with shell available!
@@ -237,12 +251,12 @@ selfSignedCertificates:
 
 certManager:
   # -- Enable CertManager for etcd certificates
-  enabled: false
+  enabled: true
   # -- CertManager Issuer to use for the etcd certificates
-  issuerRef: {}
-  #  name: kamaji-etcd-issuer
-  #  kind: ClusterIssuer
-  #  group: cert-manager.io
+  issuerRef:
+    name: selfsigned-giantswarm
+    kind: ClusterIssuer
+    group: cert-manager.io
   ca:
     create: true
     nameOverride: ""
