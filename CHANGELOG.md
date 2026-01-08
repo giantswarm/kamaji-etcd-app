@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Push to `kamaji-addons-app-collection`.
+
 ### Added
 
 - Added `sync/` folder with patch-based sync system for maintaining Giant Swarm specific overrides
