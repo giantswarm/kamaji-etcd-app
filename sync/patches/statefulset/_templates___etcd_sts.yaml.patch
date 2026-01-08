@@ -1,5 +1,5 @@
 diff --git a/helm/kamaji-etcd/templates/etcd_sts.yaml b/helm/kamaji-etcd/templates/etcd_sts.yaml
-index 73c195f..9d80a50 100644
+index 73c195f..adee82d 100644
 --- a/helm/kamaji-etcd/templates/etcd_sts.yaml
 +++ b/helm/kamaji-etcd/templates/etcd_sts.yaml
 @@ -3,6 +3,9 @@ kind: StatefulSet
@@ -21,3 +21,12 @@ index 73c195f..9d80a50 100644
            ports:
              - containerPort: {{ .Values.clientPort }}
                name: client
+@@ -127,6 +130,8 @@ spec:
+       {{- with .Values.topologySpreadConstraints }}
+       topologySpreadConstraints: {{- toYaml . | nindent 8 }}
+       {{- end }}
++      securityContext:
++      {{- toYaml .Values.podSecurityContext | nindent 8 }}
+   volumeClaimTemplates:
+     - apiVersion: v1
+       kind: PersistentVolumeClaim

@@ -3,6 +3,9 @@ kind: StatefulSet
 metadata:
   labels:
     {{- include "etcd.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/no-read-only-root-fs: "etcd requires write access to data directory"
+    ignore-check.kube-linter.io/no-anti-affinity: "Anti-affinity is optional and configured via values.yaml"
   name: {{ include "etcd.stsName" . }}
   namespace: {{ .Release.Namespace }}
 spec:
@@ -59,7 +62,7 @@ spec:
           image: {{ include "etcd.fullyQualifiedDockerImage" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
-            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
           ports:
             - containerPort: {{ .Values.clientPort }}
               name: client
@@ -127,6 +130,8 @@ spec:
       {{- with .Values.topologySpreadConstraints }}
       topologySpreadConstraints: {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
   volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
