@@ -12,4 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Push chart to control-plane-catalog.
 - Push to `kamaji-addons-app-collection`.
 
-[Unreleased]: https://github.com/giantswarm/{APP-NAME}/tree/main
+### Added
+
+- Added `sync/` folder with patch-based sync system for maintaining Giant Swarm specific overrides
+- Added vendir configuration for syncing upstream chart
+
+[Unreleased]: https://github.com/giantswarm/kamaji-etcd-app/tree/main

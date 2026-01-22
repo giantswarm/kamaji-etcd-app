@@ -1,2 +1,4 @@
 vendor
 .vendir*
+vendir.lock.yml
+.github/copilot-instructions.md
