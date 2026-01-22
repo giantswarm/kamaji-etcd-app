@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Push chart to control-plane-catalog.
 - Push to `kamaji-addons-app-collection`.
 
 [Unreleased]: https://github.com/giantswarm/{APP-NAME}/tree/main
