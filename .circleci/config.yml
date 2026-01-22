@@ -11,7 +11,7 @@ workflows:
         name: package-and-push-chart
         app_catalog: control-plane-catalog
         app_catalog_test: control-plane-test-catalog
-        chart: '{APP-NAME}'
+        chart: 'kamaji-etcd'
           # Trigger job on git tag.
         filters:
           tags:
