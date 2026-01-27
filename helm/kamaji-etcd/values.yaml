@@ -130,7 +130,7 @@ affinity:
         - key: app.kubernetes.io/instance
           operator: In
           values:
-          - kamaji-etcd
+          -  kamaji-etcd
       topologyKey: "kubernetes.io/hostname"
 
 # -- Kubernetes topology spread constraints to apply to etcd pods
