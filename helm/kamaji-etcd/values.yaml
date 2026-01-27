@@ -68,7 +68,7 @@ persistentVolumeClaim:
   # -- The size of persistent storage for etcd data
   size: 8Gi
   # -- A specific storage class
-  storageClassName: ""
+  storageClassName: "local-path"
   # -- The Access Mode to storage
   accessModes:
   - ReadWriteOnce
@@ -247,7 +247,7 @@ jobs:
 
 selfSignedCertificates:
   # -- Enables the generation of self-signed certificates for etcd using the cfssl, and kubectl jobs.
-  enabled: true
+  enabled: false
 
 certManager:
   # -- Enable CertManager for etcd certificates
