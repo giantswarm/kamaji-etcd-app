@@ -22,7 +22,16 @@ spec:
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
+        runAsNonRoot: true
+        fsGroup: {{ .Values.securityContext.runAsGroup }}
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: pause
-          image: busybox
+          image: {{ .Values.jobs.kubectl.image }}:{{ .Values.jobs.kubectl.tag }}
           command: ["sh", "-c", "sleep 90"]
+          resources:
+            {{- toYaml .Values.jobs.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+            readOnlyRootFilesystem: true
