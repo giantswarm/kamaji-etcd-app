@@ -20,8 +20,8 @@ spec:
     spec:
       restartPolicy: Never
       securityContext:
-        runAsUser: {{ .Values.securityContext.runAsUser" }}
-        runAsGroup: {{ .Values.securityContext.runAsGroup" }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+        runAsGroup: {{ .Values.securityContext.runAsGroup }}
       containers:
         - name: pause
           image: busybox
