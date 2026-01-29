@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-pre-delete-etcd-wait"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "etcd.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-pre-delete-etcd-wait"
+      namespace: {{ .Release.Namespace }}
+      labels:
+        {{- include "etcd.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsUser: {{ .Values.securityContext.runAsUser" }}
+        runAsGroup: {{ .Values.securityContext.runAsGroup" }}
+      containers:
+        - name: pause
+          image: busybox
+          command: ["sh", "-c", "sleep 90"]
