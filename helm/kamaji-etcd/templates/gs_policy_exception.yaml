@@ -6,6 +6,7 @@ metadata:
       "helm.sh/hook-weight": "-5"
       "helm.sh/hook-delete-policy": before-hook-creation
   labels:
+    {{- include "etcd.labels" . | nindent 4 }}
     app.kubernetes.io/managed-by: kyverno-policy-operator
   name: "{{ .Release.Name }}"
   namespace: policy-exceptions
