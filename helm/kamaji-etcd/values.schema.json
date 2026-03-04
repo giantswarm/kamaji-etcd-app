@@ -334,6 +334,9 @@
                 "customAnnotations": {
                     "type": "object"
                 },
+                "retentionPolicyWhenDeleted": {
+                    "type": "string"
+                },
                 "size": {
                     "type": "string"
                 },

@@ -12,21 +12,3 @@ index 73c195f..adee82d 100644
    name: {{ include "etcd.stsName" . }}
    namespace: {{ .Release.Namespace }}
  spec:
-@@ -59,7 +62,7 @@ spec:
-           image: {{ include "etcd.fullyQualifiedDockerImage" . }}
-           imagePullPolicy: {{ .Values.image.pullPolicy }}
-           securityContext:
--            {{- toYaml .Values.podSecurityContext | nindent 12 }}
-+            {{- toYaml .Values.securityContext | nindent 12 }}
-           ports:
-             - containerPort: {{ .Values.clientPort }}
-               name: client
-@@ -127,6 +130,8 @@ spec:
-       {{- with .Values.topologySpreadConstraints }}
-       topologySpreadConstraints: {{- toYaml . | nindent 8 }}
-       {{- end }}
-+      securityContext:
-+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
-   volumeClaimTemplates:
-     - apiVersion: v1
-       kind: PersistentVolumeClaim

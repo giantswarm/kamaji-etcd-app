@@ -4,7 +4,7 @@ index 4be39f2..53f77f3 100644
 +++ b/helm/kamaji-etcd/values.yaml
 @@ -13,8 +13,8 @@ serviceAccount:
    name: ""
- 
+
  image:
 -  # -- Install image from specific repo 
 -  repository: quay.io/coreos/etcd
@@ -14,25 +14,25 @@ index 4be39f2..53f77f3 100644
    tag: ""
    # -- Pull policy to use
 @@ -49,8 +49,8 @@ clusterDomain: "cluster.local"
- 
+
  # -- A list of extra arguments to add to the etcd default ones
  extraArgs: []
 -#- --log-level=warn
 -#- --logger=zap
 +# - --log-level=warn
 +# - --logger=zap
- 
+
  # -- Interpret 'auto-compaction-retention' one of: periodic|revision. Use 'periodic' for duration based retention, 'revision' for revision number based retention.
  autoCompactionMode: periodic
 @@ -61,14 +61,14 @@ autoCompactionRetention: 5m
  # -- Number of committed transactions to trigger a snapshot to disk.
  snapshotCount: "10000"
- 
+
 -# -- Raise alarms when backend size exceeds the given quota. It will put the cluster into a maintenance mode which only accepts key reads and deletes. 
 -quotaBackendBytes: "8589934592" # 8Gi
 +# -- Raise alarms when backend size exceeds the given quota. It will put the cluster into a maintenance mode which only accepts key reads and deletes.
 +quotaBackendBytes: "8589934592"  # 8Gi
- 
+
  persistentVolumeClaim:
 -  # -- The size of persistent storage for etcd data 
 +  # -- The size of persistent storage for etcd data
@@ -43,8 +43,8 @@ index 4be39f2..53f77f3 100644
    # -- The Access Mode to storage
    accessModes:
    - ReadWriteOnce
-@@ -86,14 +86,33 @@ podAnnotations: {}
- # -- The securityContext to apply to etcd
+@@ -88,17 +88,34 @@ podAnnotations: {}
+ # -- The securityContext to apply to etcd containers
  securityContext:
    allowPrivilegeEscalation: false
 +  capabilities:
@@ -55,7 +55,9 @@ index 4be39f2..53f77f3 100644
 +  runAsGroup: 1000
 +  seccompProfile:
 +    type: RuntimeDefault
-+
+ 
+ # -- The securityContext to apply to etcd pods
+-podSecurityContext: {}
 +podSecurityContext:
 +  runAsNonRoot: true
 +  runAsUser: 1000
@@ -81,7 +83,7 @@ index 4be39f2..53f77f3 100644
  nodeSelector:
 @@ -103,25 +122,25 @@ nodeSelector:
  tolerations: []
- 
+
  # -- Kubernetes affinity rules to apply to etcd pods
 -affinity: {}
 -  # podAntiAffinity:
@@ -103,7 +105,7 @@ index 4be39f2..53f77f3 100644
 +          values:
 +          - kamaji-etcd
 +      topologyKey: "kubernetes.io/hostname"
- 
+
  # -- Kubernetes topology spread constraints to apply to etcd pods
  topologySpreadConstraints: []
 -#- maxSkew: 1
@@ -118,7 +120,7 @@ index 4be39f2..53f77f3 100644
 +#   labelSelector:
 +#     matchLabels:
 +#       application: kamaji-etcd
- 
+
  datastore:
    # -- Create a datastore custom resource for Kamaji
 @@ -129,7 +148,7 @@ datastore:
@@ -167,12 +169,12 @@ index 4be39f2..53f77f3 100644
 +    image: gsoci.azurecr.io/giantswarm/etcd
 +    tag: v3.5.6  # latest container image with shell available!
      pullPolicy: IfNotPresent
- 
+
  selfSignedCertificates:
    # -- Enables the generation of self-signed certificates for etcd using the cfssl, and kubectl jobs.
 -  enabled: true
 +  enabled: false
- 
+
  certManager:
    # -- Enable CertManager for etcd certificates
 -  enabled: false

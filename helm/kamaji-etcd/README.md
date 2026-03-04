@@ -1,6 +1,6 @@
 # kamaji-etcd
 
-![Version: 0.14.0](https://img.shields.io/badge/Version-0.14.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.5.17](https://img.shields.io/badge/AppVersion-3.5.17-informational?style=flat-square)
+![Version: 0.15.0](https://img.shields.io/badge/Version-0.15.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.5.17](https://img.shields.io/badge/AppVersion-3.5.17-informational?style=flat-square)
 
 Helm chart for deploying a multi-tenant `etcd` cluster.
 
@@ -104,15 +104,17 @@ Here the values you can override:
 | peerApiPort | int | `2380` | The peer API port which servers are listening to. |
 | persistentVolumeClaim.accessModes | list | `["ReadWriteOnce"]` | The Access Mode to storage |
 | persistentVolumeClaim.customAnnotations | object | `{}` | The custom annotations to add to the PVC |
+| persistentVolumeClaim.retentionPolicyWhenDeleted | string | `"Retain"` | What happens to PVCs created when the StatefulSet is deleted. `Retain` causes PVCs to not be affected by StatefulSet deletion, `Delete` policy causes those PVCs to be deleted |
 | persistentVolumeClaim.size | string | `"8Gi"` | The size of persistent storage for etcd data  |
 | persistentVolumeClaim.storageClassName | string | `""` | A specific storage class |
 | podAnnotations | object | `{}` | Annotations to add to all etcd pods |
 | podLabels | object | `{"application":"kamaji-etcd"}` | Labels to add to all etcd pods |
+| podSecurityContext | object | `{}` | The securityContext to apply to etcd pods |
 | priorityClassName | string | `"system-cluster-critical"` | The priorityClassName to apply to etcd |
 | quotaBackendBytes | string | `"8589934592"` | Raise alarms when backend size exceeds the given quota. It will put the cluster into a maintenance mode which only accepts key reads and deletes.  |
 | replicas | int | `3` | Size of the etcd cluster |
 | resources | object | `{"limits":{},"requests":{}}` | Resources assigned to the etcd containers |
-| securityContext | object | `{"allowPrivilegeEscalation":false}` | The securityContext to apply to etcd |
+| securityContext | object | `{"allowPrivilegeEscalation":false}` | The securityContext to apply to etcd containers |
 | selfSignedCertificates.enabled | bool | `true` | Enables the generation of self-signed certificates for etcd using the cfssl, and kubectl jobs. |
 | serviceAccount | object | `{"create":true,"name":""}` | Install an etcd with enabled multi-tenancy |
 | serviceAccount.create | bool | `true` | Create a ServiceAccount, required to install and provision the etcd backing storage (default: true) |
