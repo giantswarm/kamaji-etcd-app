@@ -75,6 +75,8 @@ persistentVolumeClaim:
   # -- The custom annotations to add to the PVC
   customAnnotations: {}
   #  volumeType: local
+# -- What happens to PVCs created when the StatefulSet is deleted. `Retain` causes PVCs to not be affected by StatefulSet deletion, `Delete` policy causes those PVCs to be deleted
+  retentionPolicyWhenDeleted: Retain
 
 # -- Labels to add to all etcd pods
 podLabels:
@@ -83,7 +85,7 @@ podLabels:
 # -- Annotations to add to all etcd pods
 podAnnotations: {}
 
-# -- The securityContext to apply to etcd
+# -- The securityContext to apply to etcd containers
 securityContext:
   allowPrivilegeEscalation: false
   capabilities:
@@ -95,6 +97,7 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
+# -- The securityContext to apply to etcd pods
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 1000

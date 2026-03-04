@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update upstream chart to v0.15.0 (etcd 3.5.17, adds PVC retention policy).
+
 ## [0.2.1] - 2026-02-05
 
 ### Changed
