@@ -14,7 +14,7 @@ helm dependency update helm/kamaji-etcd/
 { set +x; } 2>/dev/null
 
 # Copy overwrites
- cp -R "./sync/overwrites/kamaji-etcd/." "./helm/kamaji-etcd/"
+# cp -R "./sync/overwrites/kamaji-etcd/." "./helm/kamaji-etcd/"
 
 # Patches
 ./sync/patches/chart/patch.sh
