@@ -6,7 +6,7 @@ index 1234567..abcdefg 100644
  home: https://github.com/clastix/kamaji-etcd
  sources: ["https://github.com/clastix/kamaji-etcd"]
 -icon: https://github.com/clastix/kamaji/raw/master/assets/logo-colored.png
-+icon: https://s.giantswarm.io/app-icons/kamaji/1/light.png
++icon: https://s.giantswarm.io/app-icons/kamaji/2/light.svg
  kubeVersion: ">=1.22.0-0"
  maintainers:
    - email: adriano@clastix.io
