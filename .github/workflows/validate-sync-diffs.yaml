@@ -56,8 +56,19 @@ jobs:
           binary: "kustomize"
           # repo: kubernetes-sigs/kustomize
           version: "5.8.0"
-          download_url: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${version}/kustomize_v5.8.0_linux_amd64.tar.gz"
+          download_url: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${version}/kustomize_v${version}_linux_amd64.tar.gz"
           tarball_binary_path: "${binary}"
+          smoke_test: "${binary} version"
+
+      # the bundled helm version in the runner image is too old
+      - name: Install Helm
+        uses: giantswarm/install-binary-action@5bef88f65012037dd836117c8d344b21bb559854 # v4.1.0
+        with:
+          binary: "helm"
+          # repo: helm/helm
+          version: "4.2.3"
+          download_url: "https://get.helm.sh/helm-v${version}-linux-amd64.tar.gz"
+          tarball_binary_path: "linux-amd64/${binary}"
           smoke_test: "${binary} version"
 
       # the CRD patch compares the vendored CRDs against the default branch
