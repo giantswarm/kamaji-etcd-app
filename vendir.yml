@@ -1,14 +1,17 @@
 apiVersion: vendir.k14s.io/v1alpha1
 kind: Config
 directories:
-- path: helm/kamaji-etcd
+- path: vendor
   contents:
-  - path: .
+  - path: kamaji-etcd
     git:
       url: https://github.com/clastix/kamaji-etcd
-      # Update this ref to the latest version tag from https://github.com/clastix/kamaji-etcd/releases
-      # Latest release as of 2026-01-06: v0.15.0
       ref: v0.17.0
     includePaths:
     - charts/kamaji-etcd/**/*
     newRootPath: charts/kamaji-etcd
+- path: helm/kamaji-etcd
+  contents:
+  - path: .
+    directory:
+      path: vendor/kamaji-etcd
