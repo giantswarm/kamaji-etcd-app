@@ -6,7 +6,7 @@ directories:
   - path: kamaji-etcd
     git:
       url: https://github.com/clastix/kamaji-etcd
-      ref: v0.17.0
+      ref: v0.18.0
     includePaths:
     - charts/kamaji-etcd/**/*
     newRootPath: charts/kamaji-etcd
