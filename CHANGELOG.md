@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Align vendir configuration with best practises.
 - Disable Helm image reference verification in CI config.
 - Add Github action to create an issue in `giantswarm/giantswarm` for Team Rocket on vendir updates.
+- Revert 'Disable Helm image reference verification in CI config'.
+- Stop overriding appVersion in chart metadata.
+- Update architect to v10.13.1 (giantswarm/kamaji-etcd-app#58)
+- Update architect to v10.13.2 (giantswarm/kamaji-etcd-app#59)
 
 ## [0.3.1] - 2026-06-17
 
