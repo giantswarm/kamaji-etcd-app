@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update architect to v10.13.2 (giantswarm/kamaji-etcd-app#59)
 - Update architect to v10.13.5 (giantswarm/kamaji-etcd-app#61)
 - Update architect to v10.14.7 (giantswarm/kamaji-etcd-app#65)
+- Update carvel-dev/vendir to v0.46.3 (giantswarm/kamaji-etcd-app#70)
 
 ## [0.3.1] - 2026-06-17
 
