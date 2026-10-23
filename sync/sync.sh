@@ -24,6 +24,7 @@ helm dependency update helm/kamaji-etcd/
 ./sync/patches/job-preinstall-1/patch.sh
 ./sync/patches/job-preinstall-2/patch.sh
 ./sync/patches/job-postdelete/patch.sh
+./sync/patches/chart-label/patch.sh
 
 # Generate schema
 echo "Generating values schema..."
