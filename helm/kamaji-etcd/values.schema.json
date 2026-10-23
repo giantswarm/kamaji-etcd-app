@@ -91,6 +91,34 @@
                         }
                     }
                 },
+                "caBundle": {
+                    "type": "object",
+                    "properties": {
+                        "additionalCASecrets": {
+                            "type": "array"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "image": {
+                            "type": "object",
+                            "properties": {
+                                "pullPolicy": {
+                                    "type": "string"
+                                },
+                                "repository": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "ownCAKey": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "clientCert": {
                     "type": "object",
                     "properties": {
