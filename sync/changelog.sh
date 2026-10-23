@@ -15,37 +15,43 @@ CHANGELOG="${REPO_DIR}/CHANGELOG.md" ; readonly CHANGELOG
 # get the upstream sync version from vendir.yml
 UPSTREAM_SYNC_VERSION=$(yq -r .directories[0].contents[0].git.ref "${REPO_DIR}"/vendir.yml) ; readonly UPSTREAM_SYNC_VERSION
 
-readonly ENTRY_PREFIX="- Update upstream kamaji-etcd chart to "
-ENTRY="${ENTRY_PREFIX}${UPSTREAM_SYNC_VERSION}." ; readonly ENTRY
+ENTRY="- Update upstream kamaji-etcd chart to ${UPSTREAM_SYNC_VERSION}." ; readonly ENTRY
+
+# running this twice with the same version must not change the file, otherwise
+# the sync workflow loops. existing entries are never changed or removed.
+if grep -qxF -- "${ENTRY}" "${CHANGELOG}"; then
+    echo "Changelog entry already present: ${ENTRY}"
+    exit 0
+fi
 
 echo "Adding changelog entry: ${ENTRY}"
 
+# find out if the Unreleased section already has a Changed heading
+HAS_CHANGED=$(awk '
+$0 == "## [Unreleased]" { in_unreleased = 1 ; next }
+in_unreleased && /^## \[/ { exit }
+in_unreleased && $0 == "### Changed" { print 1 ; exit }
+' "${CHANGELOG}") ; readonly HAS_CHANGED
+
 TMP_FILE=$(mktemp) ; readonly TMP_FILE
 
-# add the entry to the top of the Unreleased section. running this twice with the
-# same version must not change the file, otherwise the sync workflow loops.
-awk -v entry="${ENTRY}" -v prefix="${ENTRY_PREFIX}" '
-# print a line, but never two blank lines in a row
-function out(line) {
-    if (line == "") {
-        if (prev_blank) { return }
-        prev_blank = 1
-    } else {
-        prev_blank = 0
-    }
-    print line
-}
+# add the entry to the top of the Changed list in the Unreleased section, and
+# add the Changed heading if it does not exist.
+awk -v entry="${ENTRY}" -v has_changed="${HAS_CHANGED}" '
+# put the entry before the first item of the Changed list
+want && /^- / { print entry ; want = 0 }
+# the Changed list is empty
+want && /^#/ { print entry ; print "" ; want = 0 }
 $0 == "## [Unreleased]" {
-    out($0) ; out("") ; out("### Changed") ; out("") ; out(entry)
+    print
     in_unreleased = 1
+    if (has_changed == "") { print "" ; print "### Changed" ; print "" ; print entry }
     next
 }
 # the next release heading ends the Unreleased section
 in_unreleased && /^## \[/ { in_unreleased = 0 }
-# drop the heading we just printed and the entry from any previous run
-in_unreleased && $0 == "### Changed" { next }
-in_unreleased && index($0, prefix) == 1 { next }
-{ out($0) }
+in_unreleased && $0 == "### Changed" { want = 1 }
+{ print }
 ' "${CHANGELOG}" > "${TMP_FILE}"
 
 # keep the mode of the existing file
