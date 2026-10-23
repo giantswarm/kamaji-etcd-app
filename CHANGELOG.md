@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Update upstream kamaji-etcd chart to v0.18.0.
+- Update upstream kamaji-etcd chart to v0.18.1.
 
 ### Added
 
