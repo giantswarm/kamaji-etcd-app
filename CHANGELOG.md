@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update architect to v10.14.18 (giantswarm/kamaji-etcd-app#77)
 - Update architect to v10.15.1 (giantswarm/kamaji-etcd-app#79)
 - Update architect to v10.16.3 (giantswarm/kamaji-etcd-app#80)
+- Update architect to v10.16.6 (giantswarm/kamaji-etcd-app#84)
 
 ### Fixed
 
